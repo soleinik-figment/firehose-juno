@@ -1,24 +1,71 @@
-1. run:
-    junod init
-this will create under $HOME directory juno dir configs
+# Juno
 
-2. copy 2 files to $HOME/.juno
+## clone juno repository
+```
+   git clone git@github.com:CosmosContracts/juno.git
+```
+
+## checkout v3.0.0
+```
+   git checkout v3.0.0
+```
+
+## replace cosmos-sdk and tendermint inside `go.mod` in juno
+```
+    github.com/tendermint/tendermint => github.com/figment-networks/tendermint firehose-v0.34.16
+    github.com/cosmos/cosmos-sdk => github.com/figment-networks/cosmos-sdk firehose-v0.45.1
+```
+
+## update mod file and build binary
+```
+    go mod tidy
+    make build
+```
+
+## run juno binary
+```
+    junod init
+```     
+    this will create under $HOME directory juno dir configs
+
+for linux you can use prepared binary that is inside this repository:
+```
+    junod-linux init
+```
+
+
+# firehose-cosmos
+
+## clone firehose-cosmos
+```
+   git clone git@github.com:figment-networks/firehose-cosmos.git
+```
+
+## build
+```
+    make build
+
+```
+
+## copy files to $HOME/.juno
     config.toml app.toml
 
-3.
-# Download genesis.json file to $HOME/.juno
-curl https://share.blockpane.com/juno/phoenix/genesis.json > ~/.juno/config/genesis.json
-
-
-4. in config.toml
-line (#443) shoud point to existing folder $HOME/output
+## Download genesis.json file into $HOME/.juno
+```
+    curl https://share.blockpane.com/juno/phoenix/genesis.json > ~/.juno/config/genesis.json
+```
+## in config.toml line (#443) shoud point to existing folder $HOME/output
+```
     output_file = "$HOME/output/stream.log"
+```
 
-5. firehose.yaml 
-  line (#11) should point at junod 
+## in firehose.yaml line (#11) should point at junod binary
+```
       ingestor-node-path: ./junod
-6. execute (to run firehose with instruneted juno binary)
+```
+
+## execute (to run firehose with instruneted juno binary)
+```
     firehose-cosmos start --config=./firehose.yaml
+```
 
-
- 
